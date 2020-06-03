@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "223403748694",
+    "firebase_url": "https://wellenssq.firebaseio.com",
+    "project_id": "wellenssq",
+    "storage_bucket": "wellenssq.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:223403748694:android:c85f04e657db9f8d72baf7",
+        "android_client_info": {
+          "package_name": "com.android.wellenssq"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "223403748694-psgj75q6m0b92ig6od74kb8jhlm60mft.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.android.wellenssq",
+            "certificate_hash": "3630e65325f7243e2f1934a4168d79909ed8ff98"
+          }
+        },
+        {
+          "client_id": "223403748694-nbpqabspvr0ud8voacjko7sm2eu5bmv4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCxaTb5_ugQXrTCPsJ7KEWtBWKI4Bol18k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "223403748694-nbpqabspvr0ud8voacjko7sm2eu5bmv4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

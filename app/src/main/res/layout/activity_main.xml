@@ -5,7 +5,8 @@
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingTop="?attr/actionBarSize">
+    android:paddingTop="?attr/actionBarSize"
+    android:background="@drawable/grad">
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/nav_view"
@@ -38,43 +39,98 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            >
 
-    <EditText
-        android:id="@+id/txtPhoneno"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:text="Phone Number"
-        android:layout_alignParentLeft="true"
+            <ImageView
+                android:id="@+id/logo"
+                android:layout_width="224dp"
+                android:layout_height="203dp"
+                android:layout_centerHorizontal="true"
+                android:gravity="center"
+                android:src="@drawable/logo" />
 
-         />
+            <EditText
+                android:id="@+id/txtloginName"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/logo"
+                android:layout_centerHorizontal="true"
+                android:layout_marginLeft="12dp"
+                android:layout_marginTop="70dp"
 
-    <EditText
-        android:id="@+id/txtOtp"
-        android:layout_below="@+id/txtPhoneno"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:text="OTP"
-        tools:layout_editor_absoluteX="138dp"
-        tools:layout_editor_absoluteY="310dp" />
+                android:hint="Your Name" />
 
-    <Button
-        android:id="@+id/btnGenerateOtp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Generate OTP"
-        android:layout_below="@+id/txtOtp"
-        tools:layout_editor_absoluteX="130dp"
-        tools:layout_editor_absoluteY="453dp" />
+            <EditText
+                android:id="@+id/txtPhoneno"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txtloginName"
+                android:layout_centerHorizontal="true"
+                android:layout_marginLeft="12dp"
+                android:layout_marginTop="1dp"
+
+                android:hint="Phone Number" />
+
+            <EditText
+                android:id="@+id/txtOtp"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txtPhoneno"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="1dp"
+                android:hint="OTP"
+                tools:layout_editor_absoluteX="138dp"
+                tools:layout_editor_absoluteY="310dp" />
+
+            <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/radGroup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:layout_below="@+id/txtOtp">
+                <RadioButton android:id="@+id/radDoctor"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                   android:layout_marginLeft="120dp"
+                    android:text="Doctor"
+                    android:checked="true"
+
+                    />
+                <RadioButton android:id="@+id/radPatient"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Patient"
+                   />
+            </RadioGroup>
+
+            <Button
+                android:id="@+id/btnGenerateOtp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="70dp"
+                android:layout_below="@+id/txtOtp"
+                android:layout_centerHorizontal="true"
+                android:text="Generate OTP"
+                tools:layout_editor_absoluteX="10dp"
+                tools:layout_editor_absoluteY="453dp" />
+
 
             <Button
                 android:id="@+id/btnlogin"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Login"
                 android:layout_below="@+id/btnGenerateOtp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dp"
+                android:text="Login"
+
                 tools:layout_editor_absoluteX="130dp"
                 tools:layout_editor_absoluteY="453dp" />
+
+
         </RelativeLayout>
     </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

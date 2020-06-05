@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="timeslots">
+        <item>8-10 AM</item>
+        <item>10-12 AM</item>
+        <item>12-1 PM</item>
+        <item>1-2 PM</item>
+        <item>2-4 PM</item>
+        <item>4-6 PM</item>
+        <item>6-8 PM</item>
+
+
+    </string-array>
+
+
+</resources>

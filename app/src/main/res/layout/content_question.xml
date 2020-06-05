@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:textStyle="bold"
+            android:textSize="20dp"
+            android:layout_marginTop="50dp"
+            android:text="Are you at Risk for Covid-19 ?"
+   />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="1dp"
+            android:textStyle="italic"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:textSize="14dp"
+            android:text="Please complete the questions below"
+            />
+        <TextView android:id="@+id/checkbox_meat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:textStyle="bold"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+
+            android:textSize="18dp"
+            android:text="1.Have you come into close contact (within 6 feet) with someone who has a laboratory confirmed COVID -19 diagosis in the past 14 days?"
+
+            />
+
+        <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/question1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:layout_below="@+id/checkbox_meat">
+            <RadioButton android:id="@+id/rad1yes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="120dp"
+
+                android:text="Yes"
+                android:checked="true"
+
+                />
+            <RadioButton android:id="@+id/rad1no"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="No"
+                />
+        </RadioGroup>
+        <TextView android:id="@+id/checkbox_cheese"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="50dp"
+            android:textSize="18dp"
+            android:textStyle="bold"
+            android:text="2. Do you have any of the following: fever or chills, cough,shortness of breath or difficulty breathing,body aches,headache,new loss of taste or smell, sore throat?"
+           />
+
+        <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/question2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:layout_below="@+id/checkbox_meat">
+            <RadioButton android:id="@+id/rad2yes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="120dp"
+
+                android:text="Yes"
+                android:checked="true"
+
+                />
+            <RadioButton android:id="@+id/rad2no"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="No"
+                />
+        </RadioGroup>
+
+
+        <TextView android:id="@+id/txtStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="50dp"
+            android:textSize="18dp"
+            android:textStyle="bold"
+            android:textColor="#A52A2A"
+            android:visibility="invisible"
+            android:text="Based on the answers you provided, you may need Covid-19 testing"
+            />
+
+        <Button
+            android:id="@+id/btnTakeTest"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="70dp"
+            android:textColor="#808000"
+            android:layout_marginLeft="40dp"
+            android:visibility="invisible"
+            android:text="Click this to Book Appointemnt for Testing"/>
+
+        <Button
+            android:id="@+id/btnSt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:textColor="#808000"
+            android:layout_marginLeft="40dp"
+            android:text="I have completed the Questionnaire"/>
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

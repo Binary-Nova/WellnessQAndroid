@@ -1,10 +1,13 @@
 package com.android.wellenssq;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -19,6 +22,7 @@ import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -30,22 +34,28 @@ import java.util.concurrent.TimeUnit;
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "PhoneAuthActivity";
     Button btnGenerateOTP, btnSignIn;
-    String smsCode = "123456";
+
     EditText etPhoneNumber, etOTP;
+    RadioButton doc;
+    RadioButton patient;
     String codeSent;
-        String otp;
+    String otp;
     PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallback;
     FirebaseAuth auth;
+    private FirebaseAuth.AuthStateListener mAuthListener;
     private PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallbacks;
 
 
     private String verificationCode;
     PhoneAuthProvider pap;
+    String   phoneNumber;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.hide();
         Log.d(TAG, "=================>on Create" );
         auth = FirebaseAuth.getInstance();
         pap=PhoneAuthProvider.getInstance();
@@ -53,6 +63,60 @@ public class MainActivity extends AppCompatActivity {
         btnSignIn=findViewById(R.id.btnlogin);
         etPhoneNumber= findViewById(R.id.txtPhoneno);
         etOTP=findViewById(R.id.txtOtp);
+
+        RadioGroup radioGroup = (RadioGroup) findViewById(R.id.radGroup);
+
+        doc = (RadioButton) findViewById(R.id.radDoctor); // initiate a radio button
+        patient=(RadioButton)findViewById(R.id.radPatient);
+
+        mAuthListener = new FirebaseAuth.AuthStateListener(){
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                FirebaseUser user = firebaseAuth.getCurrentUser();
+                if (user!=null){
+                    System.out.println("User logged in");
+                }
+                else{
+                    System.out.println("User not logged in");
+                }
+            }
+        };
+
+
+
+        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
+        {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                Log.d(TAG, "=================>in on checked changed" );
+
+                if(doc.isChecked())
+                    Log.d(TAG, "=================>doc checked" );
+                if(patient.isChecked())
+                    Log.d(TAG, "=================>patient checked" );
+            }
+        });
+
+      /*  if(auth.getCurrentUser()!=null) {
+            String user = auth.getCurrentUser().getPhoneNumber();
+            Toast.makeText(getApplicationContext(), user +"You are already signed In", Toast.LENGTH_LONG).show();
+            Intent intent ;
+            if(doc.isChecked()) {
+                intent = new Intent(getApplicationContext(), DoctoryActivity.class);
+            }
+            else
+            {
+                intent = new Intent(getApplicationContext(), PatientActivity.class);
+
+            }
+            EditText name= findViewById(R.id.txtloginName);
+            Toast.makeText(getApplicationContext(),user,Toast.LENGTH_LONG).show();
+            intent.putExtra("name",name.getText().toString() );
+            intent.putExtra("phone",  user);
+            startActivity(intent);
+
+        }
+*/
         Log.d(TAG, "=================>Getting phone number form edit text"+etPhoneNumber.getText() );
         BottomNavigationView navView = findViewById(R.id.nav_view);
         // Passing each menu ID as a set of Ids because each
@@ -84,12 +148,13 @@ public class MainActivity extends AppCompatActivity {
             }
         };
 
-            btnGenerateOTP.setOnClickListener(new View.OnClickListener() {
+        btnGenerateOTP.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 Log.d(TAG, "=================>clicked generate otp:");
-                sendVerificationCode();
+               // FirebaseAuth.getInstance().signOut();
+               sendVerificationCode();
 
 
             }
@@ -99,18 +164,52 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Log.d(TAG, "=================>clicked login:");
-                verifySignInCode();
+
+
+                EditText name= findViewById(R.id.txtloginName);
+
+
+
+              //  startActivity(intent);
+              //  verifySignInCode();
+                Intent intent;
+                if(doc.isChecked()) {
+                    Log.d(TAG, "=================>doc login:");
+                    intent = new Intent(getApplicationContext(), DoctoryActivity.class);
+                }
+                else
+                {
+                    Log.d(TAG, "=================>patient login:");
+                    intent = new Intent(getApplicationContext(), PatientActivity.class);
+
+                }
+
+
+                intent.putExtra("name",name.getText().toString() );
+                intent.putExtra("phone",  etPhoneNumber.getText().toString());
+                startActivity(intent);
 
             }
         });
+
+
 
     }
 
     private void verifySignInCode() {
         String code= etOTP.getText().toString();
-        PhoneAuthCredential credential = PhoneAuthProvider.getCredential(codeSent, code);
-        signInWithPhoneAuthCredential(credential);
+
+
+
+
+        if(code.isEmpty())
+        {
+            Toast.makeText(getApplicationContext(), "Please enter correct OTP", Toast.LENGTH_SHORT).show();
+        }
+        else {
+            PhoneAuthCredential credential = PhoneAuthProvider.getCredential(codeSent, code);
+            signInWithPhoneAuthCredential(credential);
+        }
     }
 
     private void signInWithPhoneAuthCredential(PhoneAuthCredential credential) {
@@ -122,6 +221,23 @@ public class MainActivity extends AppCompatActivity {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithCredential:success");
                             Toast.makeText(getApplicationContext(),"login successful",Toast.LENGTH_LONG).show();
+
+                            Intent intent = new Intent(getApplicationContext(), PatientActivity.class);
+                            EditText name= findViewById(R.id.txtloginName);
+                           // doc = (RadioButton) findViewById(R.id.radDoctor); // initiate a radio button
+                           // patient=(RadioButton)findViewById(R.id.radPatient);
+                            if(doc.isChecked()) {
+                                intent.putExtra("doc/patient", name.getText().toString());
+                            }
+                            else
+                            {
+                                intent.putExtra("doc/patient", name.getText().toString());
+                            }
+                            String user= auth.getCurrentUser().getPhoneNumber();
+                            Toast.makeText(getApplicationContext(),user,Toast.LENGTH_LONG).show();
+                            intent.putExtra("name", name.getText().toString());
+                            intent.putExtra("phone",  etPhoneNumber.getText().toString());
+                            startActivity(intent);
 
 
                         } else {
@@ -138,9 +254,9 @@ public class MainActivity extends AppCompatActivity {
 
   private void sendVerificationCode()
   {
+     phoneNumber = "+91"+etPhoneNumber.getText().toString();
 
-   String   phoneNumber="+917892859033";
-      Log.d(TAG, "=================>inside send verification"+phoneNumber+ " pap "+pap);
+      Log.d(TAG, "=================>Phone number is "+phoneNumber);
       pap.verifyPhoneNumber(
               phoneNumber,                     // Phone number to verify
               60,                           // Timeout duration
@@ -152,4 +268,17 @@ public class MainActivity extends AppCompatActivity {
 
 
   }
+
+
+    public void onStart(){
+        super.onStart();
+        auth.addAuthStateListener(mAuthListener);
+    }
+    public void onStop(){
+        super.onStop();
+        if (mAuthListener != null) {
+            auth.removeAuthStateListener(mAuthListener);
+
+        }
+    }
 }

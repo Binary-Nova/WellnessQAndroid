@@ -4,6 +4,7 @@ import java.util.List;
 
 
 import Model.Doctor;
+import Model.Patient;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
@@ -32,6 +33,16 @@ public interface Api {
 
     @PUT("doctor/queueplusdoctor/{slot}/{patientPhoneNumber}")
     Call<Integer> incrementQueue(@Path("slot") String slot,@Path("patientPhoneNumber") String pPhone,@Body Doctor d);
+
+   @POST("doctor/saveDoctor")
+   Call<Doctor> saveDoctor(@Body Doctor d);
+
+
+ @POST("patient/savepatient")
+ Call<Void> savePatient(@Body Patient p);
+
+
+
 /*
 @PathVariable String slot, @PathVariable String patientPhoneNumber,
 			@RequestBody Doctor doc

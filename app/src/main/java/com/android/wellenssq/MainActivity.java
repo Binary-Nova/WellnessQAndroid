@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -30,6 +31,14 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import java.util.concurrent.TimeUnit;
+
+import Model.Doctor;
+import Model.Patient;
+import rest.Api;
+import rest.RestCalls;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "PhoneAuthActivity";
@@ -97,26 +106,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-      /*  if(auth.getCurrentUser()!=null) {
-            String user = auth.getCurrentUser().getPhoneNumber();
-            Toast.makeText(getApplicationContext(), user +"You are already signed In", Toast.LENGTH_LONG).show();
-            Intent intent ;
-            if(doc.isChecked()) {
-                intent = new Intent(getApplicationContext(), DoctoryActivity.class);
-            }
-            else
-            {
-                intent = new Intent(getApplicationContext(), PatientActivity.class);
 
-            }
-            EditText name= findViewById(R.id.txtloginName);
-            Toast.makeText(getApplicationContext(),user,Toast.LENGTH_LONG).show();
-            intent.putExtra("name",name.getText().toString() );
-            intent.putExtra("phone",  user);
-            startActivity(intent);
 
-        }
-*/
         Log.d(TAG, "=================>Getting phone number form edit text"+etPhoneNumber.getText() );
         BottomNavigationView navView = findViewById(R.id.nav_view);
         // Passing each menu ID as a set of Ids because each
@@ -164,30 +155,28 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-
-
                 EditText name= findViewById(R.id.txtloginName);
 
-
-
-              //  startActivity(intent);
-              //  verifySignInCode();
                 Intent intent;
                 if(doc.isChecked()) {
-                    Log.d(TAG, "=================>doc login:");
-                    intent = new Intent(getApplicationContext(), DoctoryActivity.class);
+                    Doctor doc= new Doctor();
+                    doc.setPhoneNumber(etPhoneNumber.getText().toString());
+                    doc.setName(name.getText().toString());
+                    doc.setQueueCapacity(50);
+                    saveDoctor( doc);
+
                 }
                 else
                 {
-                    Log.d(TAG, "=================>patient login:");
-                    intent = new Intent(getApplicationContext(), PatientActivity.class);
+                    Patient patient= new Patient();
+                    patient.setName(name.getText().toString());
+                    patient.setPhoneNumber(etPhoneNumber.getText().toString());
+                    savePatient(patient);
+
 
                 }
 
 
-                intent.putExtra("name",name.getText().toString() );
-                intent.putExtra("phone",  etPhoneNumber.getText().toString());
-                startActivity(intent);
 
             }
         });
@@ -195,6 +184,104 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
+
+    private void savePatient(Patient patient) {
+
+        Log.d(TAG, "=================>Inside Rest Call");
+
+        try {
+            //creating the api interface
+            Api api = RestCalls.getApi();
+
+            Log.d(TAG, "=================>Inside Rest Call1");
+
+
+            Call<Void> call = api.savePatient(patient);
+            Log.d(TAG, "=================>Inside Rest Call2");
+
+
+            call.enqueue(new Callback<Void>() {
+                @Override
+                public void onResponse(Call<Void> call, Response<Void> response) {
+
+
+                    if(response.isSuccessful()) {
+                        //  loadingProgressBar.setVisibility(View.GONE);
+                        EditText name= findViewById(R.id.txtloginName);
+                        Intent  intent = new Intent(getApplicationContext(), PatientActivity.class);
+                        intent.putExtra("name",name.getText().toString() );
+                        intent.putExtra("phone",  etPhoneNumber.getText().toString());
+                        startActivity(intent);
+
+
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<Void> call, Throwable t) {
+                    Toast.makeText(getApplicationContext(),"logging failed",Toast.LENGTH_LONG).show();
+
+                }
+
+
+            });
+
+        }catch (Exception e) {Toast.makeText(getApplicationContext(),e.getMessage(),Toast.LENGTH_LONG).show();}
+
+
+
+
+    }
+
+    private void saveDoctor(Doctor doc) {
+
+
+            Log.d(TAG, "=================>Inside Rest Call");
+
+            try {
+                //creating the api interface
+                Api api = RestCalls.getApi();
+
+                Log.d(TAG, "=================>Inside Rest Call1");
+
+
+                Call<Doctor> call = api.saveDoctor(doc);
+                Log.d(TAG, "=================>Inside Rest Call2");
+
+
+                call.enqueue(new Callback<Doctor>() {
+                    @Override
+                    public void onResponse(Call<Doctor> call, Response<Doctor> response) {
+
+
+                        if(response.isSuccessful()) {
+                            //  loadingProgressBar.setVisibility(View.GONE);
+                            EditText name= findViewById(R.id.txtloginName);
+                            Intent  intent = new Intent(getApplicationContext(), DoctoryActivity.class);
+                            intent.putExtra("name",name.getText().toString() );
+                            intent.putExtra("phone",  etPhoneNumber.getText().toString());
+                            startActivity(intent);
+
+
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<Doctor> call, Throwable t) {
+                        Toast.makeText(getApplicationContext(),"logging failed",Toast.LENGTH_LONG).show();
+
+                    }
+
+
+                });
+
+            }catch (Exception e) {Toast.makeText(getApplicationContext(),e.getMessage(),Toast.LENGTH_LONG).show();}
+
+
+
+        }
+
+
 
     private void verifySignInCode() {
         String code= etOTP.getText().toString();

@@ -34,6 +34,18 @@ public class Doctor {
     @Expose
     private String phoneNumber;
 
+    @SerializedName("queueCapacity")
+    @Expose
+    private int queueCapacity;
+
+    public int getQueueCapacity() {
+        return queueCapacity;
+    }
+
+    public void setQueueCapacity(int queueCapacity) {
+        this.queueCapacity = queueCapacity;
+    }
+
     public String getName() {
         return name;
     }
